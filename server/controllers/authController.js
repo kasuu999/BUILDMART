@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 
-// ================= REGISTER =================
+//register
 const registerUser = async (req, res) => {
     const { name, email, phone, password } = req.body;
 
@@ -55,7 +55,7 @@ const registerUser = async (req, res) => {
     });
 };
 
-// ================= LOGIN =================
+// login
 const loginUser = async (req, res) => {
 
     // 1. Data lo
@@ -83,12 +83,24 @@ const loginUser = async (req, res) => {
             }
         });
     }
+res.status(400);
+throw new Error("Please fill all details");
+}
+//     // 5. Wrong credentials
+//     return res.status(401).json({
+//         message: "Invalid email or password"
+//     });
+// };
+const privateController=(req,res,next)=>{
+    console.log(req.user)
+    res.send(" Private controller")
 
-    // 5. Wrong credentials
-    return res.status(401).json({
-        message: "Invalid email or password"
-    });
-};
+}
+
+
+
+
+
 
 
 
@@ -96,4 +108,4 @@ const gentrateToken=(id)=>{
 return jwt.sign({id},process.env.JWT_SECRET,{expiresIn:'30d'})
 }
 // export
-export default { registerUser, loginUser };
+export default {registerUser,loginUser,privateController};

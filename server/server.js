@@ -1,38 +1,44 @@
-import express from "express";
-const app = express();
-import dotenv from "dotenv";
-import connectDB from "./config/dbConfig.js"; 
-//local imports
-import authRoutes from"./routes/authRoutes.js"
-import errorHandler from"./middleware/errorHandler.js"
+import express from "express"
+import dotenv from "dotenv"
+import connectDB from "./config/dbConfig.js"
+dotenv.config()
 
-dotenv.config();
-//body perser
+// Local Imports
+import authRoutes from "./routes/authRoutes.js"
+import errorHandler from "./middleware/errorHandler.js"
+import adminController from "./controllers/adminController.js"
+import adminRoutes from "./routes/adminRoutes.js"
+
+
+const PORT = process.env.PORT || 5000
+const app = express()
+
+// Body Parser
 app.use(express.json())
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }));
 
 
-//db connection
-connectDB();
+// DB Connection
+connectDB()
 
 
-const PORT = process.env.PORT || 8000;
-
-app.get("/", (req, res) => {
-    res.status(200).json({
-        message: "WELCOME TO BUILD MART"
-    });
-});
-//auth routes
-
-
-app.use("/api/auth",authRoutes)
+app.get("/",(req,res)=>{
+    res.send("WELCOME TO BUILD MART")
+})
 
 
 
-//error handler
+// Auth Routes
+
+app.use("/api/auth", authRoutes)
+//admin routes
+app.use("/api/admin",adminRoutes)
+
+
+// Error Handler
+
 app.use(errorHandler)
 
 app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`);
-});
+    console.log(`SERVER IS RUNNING AT PORT : ${PORT}`)
+})

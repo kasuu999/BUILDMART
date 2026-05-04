@@ -1,9 +1,12 @@
 import express from "express"
 import authController from "../controllers/authController.js"
+import protect from "../middleware/authMiddleware.js"
+import adminController from "../controllers/adminController.js"
 const router=express.Router()
 
 
 
 router.post("/register",authController.registerUser)
 router.post("/login",authController.loginUser)
+router.post("/private",protect.forAdmin,authController.privateController)
 export default router

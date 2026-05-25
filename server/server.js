@@ -5,40 +5,59 @@ dotenv.config()
 
 // Local Imports
 import authRoutes from "./routes/authRoutes.js"
-import errorHandler from "./middleware/errorHandler.js"
-import adminController from "./controllers/adminController.js"
 import adminRoutes from "./routes/adminRoutes.js"
+import vendorRoutes from "./routes/vendorRoutes.js"
+import errorHandler from "./middleware/errorHandler.js"
+import orderRoutes from "./routes/orderRoutes.js"
 
+import productRoutes from "./routes/productsRoutes.js"
+import couponRoutes from "./routes/couponRoutes.js"
+import cartRoutes from "./routes/cartRoutes.js"
 
 const PORT = process.env.PORT || 5000
 const app = express()
 
 // Body Parser
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded())
 
 
 // DB Connection
 connectDB()
 
 
-app.get("/",(req,res)=>{
-    res.send("WELCOME TO BUILD MART")
+
+app.get("/", (req, res) => {
+    res.status(200).json({
+        message: "WELCOME TO BUILDMART API 1.0..."
+    })
 })
 
 
-
 // Auth Routes
-
 app.use("/api/auth", authRoutes)
-//admin routes
-app.use("/api/admin",adminRoutes)
+
+// Admin Routes
+app.use("/api/admin", adminRoutes)
+
+
+// Vendor Routes
+app.use("/api/vendor", vendorRoutes)
+
+//products routes
+app.use("/api/products",productRoutes)
+//coupon routes
+app.use("/api/coupons",couponRoutes)
+
+
+//cart routes
+app.use("/api/cart",cartRoutes)
+//order routes
+app.use("/api/order",orderRoutes)
 
 
 // Error Handler
-
 app.use(errorHandler)
-
 app.listen(PORT, () => {
     console.log(`SERVER IS RUNNING AT PORT : ${PORT}`)
 })

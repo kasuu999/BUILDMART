@@ -13,6 +13,6 @@ router.get("/vendors",protect.forAdmin,adminController.getAllVendors)
 
 router.put("/user/:uid",protect.forAdmin,adminController.updateUsers)
 router.put("/vendors/:vid",protect.forAdmin,adminController.updateAllVendors)
-router.put("/products/:pid",protect.forAdmin,adminController.updateALLProducts)
+
 
 export default router
